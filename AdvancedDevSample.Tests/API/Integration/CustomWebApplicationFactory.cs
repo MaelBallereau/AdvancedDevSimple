@@ -23,4 +23,5 @@ namespace AdvancedDevSample.Tests.API.Integration
             });
         }
     }
+    public partial class Program { }
 }
