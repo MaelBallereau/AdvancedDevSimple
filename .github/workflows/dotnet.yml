@@ -3,11 +3,15 @@ name: .NET CI with Coverage
 on:
   push:
     branches: [ main ]
+  pull_request:
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
+
     # 1️⃣ Télécharger le code
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -37,7 +41,10 @@ jobs:
     # 7️⃣ Générer le rapport HTML
     - name: Generate coverage report
       run: |
-        reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
+        reportgenerator \
+        -reports:**/coverage.cobertura.xml \
+        -targetdir:coveragereport \
+        -reporttypes:Html
 
     # 8️⃣ Sauvegarder le rapport comme artefact
     - name: Upload coverage report
