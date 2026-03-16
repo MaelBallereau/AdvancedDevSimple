@@ -1,0 +1,54 @@
+name: .NET CI with Coverage
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    # 1️⃣ Télécharger le code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2️⃣ Installer .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    # 3️⃣ Restaurer les dépendances
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # 4️⃣ Compiler le projet
+    - name: Build
+      run: dotnet build --no-restore
+
+    # 5️⃣ Exécuter les tests avec couverture
+    - name: Run tests with coverage
+      run: dotnet test --collect:"XPlat Code Coverage"
+
+    # 6️⃣ Installer l’outil de génération de rapport
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    # 7️⃣ Générer le rapport HTML
+    - name: Generate coverage report
+      run: |
+        reportgenerator \
+        -reports:**/coverage.cobertura.xml \
+        -targetdir:coveragereport \
+        -reporttypes:Html
+
+    # 8️⃣ Sauvegarder le rapport comme artefact
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coveragereport
