@@ -8,7 +8,7 @@ namespace AdvancedDevSample.Application.DTOs
 {
     public class ProductResponse
     {
-        public Guid Id { get; init; }
-        public decimal Price { get; init; }
+        public Guid Id { get; set; }
+        public decimal Price { get; set; }
     }
 }

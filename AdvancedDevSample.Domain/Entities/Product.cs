@@ -37,8 +37,8 @@ namespace AdvancedDevSample.Domain.Entities
             if (newPrice <= 0) // Invariant
                 throw new DomainException("Le prix doit être positif.");
 
-            if (!IsActive) //Règle Métier
-                throw new DomainException("Produit inactif.");
+            if (!IsActive)
+                throw new DomainException("Impossible de modifier un produit inactif.");
 
             Price = newPrice;
         }
@@ -57,9 +57,6 @@ namespace AdvancedDevSample.Domain.Entities
             if(libelleparams.Length <= 5)
             {
                 throw new DomainException("Libelle trop court");
-            }
-            if (Libelle == null || libelleparams.Length == 0) {
-                throw new DomainException("Libelle invalide ou null");
             }
             Libelle = libelleparams;
             return;

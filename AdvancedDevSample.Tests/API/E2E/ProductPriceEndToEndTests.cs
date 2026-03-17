@@ -3,6 +3,7 @@ using AdvancedDevSample.Domain.Entities;
 using AdvancedDevSample.Domain.Interfaces.Products;
 using AdvancedDevSample.Tests.API.Integration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine.ClientProtocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +31,14 @@ namespace AdvancedDevSample.Tests.API.E2E
         public async Task User_Can_Change_Product_Price_EndToEnd()
         {
             // 🔹 GIVEN – un produit existe
-            var product = new Product(Guid.NewGuid(),10,true,"");
+            var product = new Product(Guid.NewGuid(), 10, true, "");
             _repo.Seed(product);
 
             // 🔹 WHEN – l’utilisateur change le prix
             var changeRequest = new ChangePriceRequest { NewPrice = 20 };
             var updateResponse = await _client.PutAsJsonAsync(
-                $"/api/productasync/{product.Id}/price",
-                changeRequest
+                $"/api/products/{product.Id}/price",
+                changeRequest,cancellationToken: TestContext.Current.CancellationToken
             );
 
             // 🔹 THEN – l’action réussit
@@ -45,13 +46,12 @@ namespace AdvancedDevSample.Tests.API.E2E
 
             // 🔹 AND – l’utilisateur récupère le produit
             var getResponse = await _client.GetAsync(
-                $"/api/productasync/{product.Id}"
+                $"/api/products/{product.Id}",TestContext.Current.CancellationToken
             );
 
             getResponse.EnsureSuccessStatusCode();
 
-            var json = await getResponse.Content.ReadAsStringAsync();
-            var dto = JsonSerializer.Deserialize<ProductResponse>(json);
+            var dto = await getResponse.Content.ReadFromJsonAsync<ProductResponse>(cancellationToken:TestContext.Current.CancellationToken);
 
             // 🔹 THEN – le prix visible est bien modifié
             Assert.Equal(20, dto!.Price);

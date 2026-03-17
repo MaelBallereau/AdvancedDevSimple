@@ -33,7 +33,7 @@ namespace AdvancedDevSample.Tests.API.Integration
             var request = new ChangePriceRequest { NewPrice = 20 };
 
             // Act
-            using (var response = _client.PutAsJsonAsync($"/api/productasync/{product.Id}/price", request).Result)
+            using (var response = _client.PutAsJsonAsync($"/api/products/{product.Id}/price", request).Result)
             {
 
                 // Assert – HTTP

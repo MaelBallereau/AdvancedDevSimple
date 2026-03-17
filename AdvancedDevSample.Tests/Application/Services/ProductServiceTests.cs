@@ -50,13 +50,13 @@ namespace AdvancedDevSample.Tests.Application.Services
 
 
         [Theory]
-        [InlineData("tes")]
-        [InlineData("")]
+        [InlineData("nouveau libelle")]
+        [InlineData("test valide")]
         public void ChangeLibelle_Fake(string newlibelle)
         {
             var product = new Product();
 
-            product.ChangeLibelle("test");
+            product.ChangeLibelle("testaa");
 
             var repo = new FakeProductRepository(product);
 

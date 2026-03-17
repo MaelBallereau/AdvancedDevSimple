@@ -46,10 +46,12 @@ namespace AdvancedDevSample.Application.Services
         }
         public ProductResponse GetById(Guid productId)
         {
+            var product = GetProduct(productId);
+
             var result = new ProductResponse
             {
                 Id = productId,
-                Price = 10
+                Price = product.Price
             };
 
             return result;

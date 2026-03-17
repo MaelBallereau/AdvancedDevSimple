@@ -1,4 +1,4 @@
-
+using AdvancedDevSample.Application.Interface;
 using AdvancedDevSample.Application.Services;
 using AdvancedDevSample.Domain.Interfaces.Products;
 using AdvancedDevSample.Infrastructure.Repositories;
@@ -38,10 +38,10 @@ builder.Services.AddSwaggerGen(options =>
     }
 });
 
-// ===== Dépendances Application =====
-builder.Services.AddScoped<ProductService>();
+// ===== Dï¿½pendances Application =====
+builder.Services.AddScoped<IProductService, ProductService>();
 
-// ===== Dépendances Infrastructure =====
+// ===== Dï¿½pendances Infrastructure =====
 builder.Services.AddScoped<IProductRepository, EfProductRepository>();
 
 var app = builder.Build();
@@ -59,3 +59,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -35,6 +35,10 @@ namespace AdvancedDevSample.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpGet("{id}")]
+        public ActionResult<ProductResponse> GetById(Guid id) { 
+            var product = _productService.GetById(id);
+            return Ok(product);
+        }
     }
 }
